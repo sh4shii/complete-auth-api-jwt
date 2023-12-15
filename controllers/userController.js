@@ -121,12 +121,10 @@ const sendUserPasswordResetEmail = asyncHandler(async (req, res) => {
   }
 
   const user = await userModel.findOne({ email });
-
   if (!user) {
     return res.status(404).json({ message: "Email doesn't exists" });
   }
-
-  //need to complete
+  
   const secret = user._id + process.env.JWT_SECRET_KEY;
   const token = jwt.sign({ userID: user._id }, secret, { expiresIn: "15m" });
   const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`;
